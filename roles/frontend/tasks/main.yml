@@ -3,6 +3,7 @@
   ansible.builtin.yum:
     name: httpd
     state: installed
+    shell: pwd
 
 - name: Remove old HTTP documents
   ansible.builtin.file:
