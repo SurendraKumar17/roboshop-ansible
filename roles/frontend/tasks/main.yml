@@ -1,7 +1,7 @@
 
 - name: Install Nginx
   ansible.builtin.yum:
-    name: 'httpd'
+    name: ngnix
     state: installed
 
 - name: Remove old HTTP documents
