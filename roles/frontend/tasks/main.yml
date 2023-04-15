@@ -3,7 +3,6 @@
   ansible.builtin.yum:
     name: httpd
     state: installed
-    shell: pwd
 
 - name: Remove old HTTP documents
   ansible.builtin.file:
@@ -20,6 +19,11 @@
     src: https://roboshop-artifacts.s3.amazonaws.com/frontend.zip
     dest: /usr/share//nginx/html
     remote_src: yes
+
+- name: Copy roboshop config file to Nginx
+  ansible.builtin.copy:
+    src: roboshop.conf
+    dest: /etc/nginx/default.d/roboshop.conf
 
 
 
