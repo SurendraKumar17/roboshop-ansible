@@ -44,3 +44,8 @@
     state: restarted
     enabled: yes
 
+- name: Load Schema
+  community.mongodb-mongodb.shell:
+    login_host: mongodb-dev.surendrak.online
+    file: "/app/schema/catalogue.js"
+    idempotent: yes
