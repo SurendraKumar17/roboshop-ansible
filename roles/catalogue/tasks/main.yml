@@ -1,6 +1,5 @@
 - name: Configuring NodeJS Repo
-  ansible.builtin.shell:
-    curl -sL https://rpm.nodesource.com/setup_lts.x | bash
+  ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 
 - name: Install NodeJS
   ansible.builtin.yum:
@@ -44,8 +43,7 @@
     enabled: yes
     state: restarted
 
-
-- name: Copy mongoDB Repo file
+  - name: Copy mongoDB Repo file
   ansible.builtin.copy:
     src: mongodb.repo
     dest: /etc/yum.repos.d/mongodb.repo
