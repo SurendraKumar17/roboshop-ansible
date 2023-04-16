@@ -41,8 +41,9 @@
   ansible.builtin.systemd:
     name: catalogue
     daemon_reload: yes
-    state: restarted
     enabled: yes
+    state: restarted
+
 
 - name: Copy mongoDB Repo file
   ansible.builtin.copy:
