@@ -45,7 +45,7 @@
     enabled: yes
 
 - name: Load Schema
-  community.mongodb-mongodb.shell:
+  community.mongodb.mongodb_shell:
     login_host: mongodb-dev.surendrak.online
     file: "/app/schema/catalogue.js"
     idempotent: yes
