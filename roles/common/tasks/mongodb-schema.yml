@@ -11,7 +11,4 @@
 
 
 - name: Load Schema
-  community.mongodb.mongodb_shell:
-    login_host: mongodb-dev.surendrak.online
-    file: "/app/schema/{{component}}.js"
-    idempotent: yes
+  ansible.builtin.shell: mongo --host mongodb-dev.surendrak.online < "/app/schema/{{component}}.js"
