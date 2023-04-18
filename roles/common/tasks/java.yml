@@ -8,9 +8,13 @@
   ansible.builtin.include_tasks: "app-prereq.yml"
 
 - name: Maven Build
-  ansible.builtin.shell: mvn clean package ;  mv target/{{component}-1.0.jar ({component)).jar
+  ansible.builtin.shell: mvn clean package ; mv target/{{component}}-1.0.jar {{component}}.jar
   args:
     chdir: /app #it goes into /app and run there
 
 - name: Systemd Setup
   ansible.builtin.include_tasks: "systemd.yml"
+
+- name: Load Schema
+  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml" #use to import tasks from another task we can say
+  when: schema_load
