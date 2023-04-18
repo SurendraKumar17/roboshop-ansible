@@ -6,43 +6,18 @@
     name: nodejs
     state: installed
 
-- name: Add application user
-  ansible.builtin.user:
-    name: roboshop
-
-- name: Remove app content
-  ansible.builtin.file:
-    path: /app
-    state: absent
-
-- name: Create app directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
-
-- name: Download {{component}} app content
-  ansible.builtin.unarchive:
-    src: https://roboshop-artifacts.s3.amazonaws.com/{{component}}.zip
-    dest: /app
-    remote_src: yes
+- name: App Pre-Req
+  ansible.builtin.include_tasks: "app-prereq.yml"
 
 - name: Installing NodeJS dependencies
   community.general.npm:
     path: /app
     state: latest
 
-- name: Copy systemd file
-  ansible.builtin.copy:
-    src: "{{component}}.service"
-    dest: /etc/systemd/system/{{component}}.service
+- name: Systemd Setup
+  ansible.builtin.include_tasks: "systemd.yml"
 
-- name: Start "{{component}}" service
-  ansible.builtin.systemd:
-    name: "{{component}}"
-    daemon_reload: yes
-    enabled: yes
-    state: restarted
 
 - name: Load Schema
-  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml"
+  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml" #use to import tasks from another task we can say
   when: schema_load

@@ -1,0 +1,17 @@
+
+- name: Install Python Deps
+  ansible.builtin.yum:
+    name:
+      - python3-PyMySQL #this needs to be installed to use mysql service along with mysql package
+      - mysql
+    state: installed
+
+
+- name: Load MYSQL Schema
+  community.mysql.mysql_db:
+    state: import
+    name: all
+    target: /app/schema/{{component}}.sql
+    login_host: mysql-dev.surendrak.online
+    login_user: root
+    login_password: "{{ root_mysql_password"}}
