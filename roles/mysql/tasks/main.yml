@@ -1,0 +1,56 @@
+print_head "Disable default mysql module"
+dnf module disable mysql -y &>>${LOG}
+status_check
+
+print_head "Copy mysql Repo file"
+cp ${script_location}/files/mysql.repo /etc/yum.repos.d/mysql.repo &>>${LOG}
+status_check
+
+print_head "Install mySQL server"
+yum install mysql-community-server -y &>>${LOG}
+status_check
+
+print_head "Enable mySQL"
+systemctl enable mysqld &>>${LOG}
+status_check
+
+print_head "Restart mysql"
+systemctl restart mysqld &>>${LOG}
+status_check
+
+print_head "Reset default database password"
+mysql_secure_installation --set-root-pass $root_mysql_password &>>${LOG}
+
+
+- name: Disable default mysql module
+  ansible.builtin.shell: dnf module disable mysql -y
+
+
+- name: Copy mysql Repo file
+  ansible.builtin.copy:
+    src: mysql.repo
+    dest: /etc/yum.repos.d/mysql.repo
+
+- name: Install MySQL
+  ansible.builtin.yum:
+    name : mysql-community-server
+    state: installed
+
+- name: Restart MySQL
+  ansible.builtin.systemd:
+    name: mysqld
+    state: restarted
+    enabled: yes
+
+- name: Reset MySQL default password
+  ansible.builtin.shell: mysql_secure_installation --set-root-pass $root_mysql_password
+  register: out #saving output to
+  ignore_errors: yes
+
+- name: password status
+  ansible.builtin.debug:
+    msg: password is already changed
+  when: out.rc == 1
+
+
+
