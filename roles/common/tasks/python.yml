@@ -1,9 +1,9 @@
-- name: Install python 3
+- name: Install Python 3
   ansible.builtin.yum:
     name:
-    - python36
-    - gcc
-    - python3-devel
+      - python36
+      - gcc
+      - python3-devel
     state: installed
 
 - name: App Pre-Req
@@ -18,6 +18,8 @@
   ansible.builtin.include_tasks: "systemd.yml"
 
 - name: Load Schema
-  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml" #use to import tasks from another task we can say
+  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml"
   when: schema_load
+
+
 
