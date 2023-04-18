@@ -1,7 +1,5 @@
-
 - name: Disable default mysql module
   ansible.builtin.shell: dnf module disable mysql -y
-
 
 - name: Copy mysql Repo file
   ansible.builtin.copy:
@@ -13,7 +11,7 @@
     name : mysql-community-server
     state: installed
 
-- name: Restart MySQL
+- name: start MySQL service
   ansible.builtin.systemd:
     name: mysqld
     state: restarted
