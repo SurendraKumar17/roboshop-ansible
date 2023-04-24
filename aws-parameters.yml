@@ -30,6 +30,7 @@
         - {name: "dev.user.MONGO_URL", value: "mongodb://mongodb-dev.surendrak.online:27017/users" }
         - {name: "dev.user.REDIS_HOST", value: "redis-dev.surendrak.online" }
 
+
     - name: Create Secrets
       community.aws.aws_ssm_parameter_store:
         name: "{{ item.name }}"
