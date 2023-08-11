@@ -1,4 +1,4 @@
-- name: Configuring NodeJS Repo
+- name: Configure NodeJS repos
   ansible.builtin.shell: curl -sL https://rpm.nodesource.com/setup_lts.x | bash
 
 - name: Install NodeJS
@@ -9,15 +9,22 @@
 - name: App Pre-Req
   ansible.builtin.include_tasks: "app-prereq.yml"
 
-- name: Installing NodeJS dependencies
+- name: Install Nodejs dependencies
   community.general.npm:
     path: /app
     state: latest
 
-- name: Systemd Setup
+- name: Download DocDB CA file
+  ansible.builtin.get_url:
+    url:  https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem
+    dest: /app/rds-combined-ca-bundle.pem
+  when: schema_load
+
+- name: SystemD Setup
   ansible.builtin.include_tasks: "systemd.yml"
 
-
 - name: Load Schema
-  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml" #use to import tasks from another task we can say
+  ansible.builtin.include_tasks: "{{schema_type}}-schema.yml"
   when: schema_load
+
+
